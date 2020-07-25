@@ -30,13 +30,31 @@ namespace BSRetriever.Interfaces
         }
 
         public bool HasAddress => !string.IsNullOrWhiteSpace(Address);
+        public override bool Retrive()
+        {
+            var retrived = _retriverLocation.Retrive(Data);
+            Location = retrived;
+            if (retrived == (0, 0))
+            {
+                HasLocation = false;
+                return false;
+            }
+            HasLocation = true;
+            return true;
 
+        }
 
-       #region privates
+        #region privates
         protected IRetriverLocation _retriverLocation;
         #endregion
 
         #region Fluent
+
+        public CellRetriver setData((string MCC, string MNC, string LAC, string CID) data)
+        {
+            Data = data;
+            return this;
+        }
         public CellRetriver withLocationRetriver(IRetriverLocation retriverLocation)
         {
             this._retriverLocation = retriverLocation;

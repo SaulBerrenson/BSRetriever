@@ -11,6 +11,8 @@ namespace BSRetriever.Interfaces
             _linkLocation = linkLocation;
         }
 
+        #region public
+
         public (double lat, double lon) Location { get; protected set; }
         public string Address { get; protected set; }
         public string Link => _linkLocation.GetLink(Location);
@@ -21,7 +23,7 @@ namespace BSRetriever.Interfaces
             get => _hasLocation;
             protected set => _hasLocation = value;
         }
-
+        #endregion
 
         #region private
         protected IAddressRetriver _retriverAddress;
@@ -29,14 +31,22 @@ namespace BSRetriever.Interfaces
         protected bool _hasLocation;
         #endregion
 
-
-
+        
         public abstract bool Retrive();
-        public abstract bool RetriveAddress();
-
-        #region Fluent
 
 
-        #endregion
+        public bool RetriveAddress()
+        {
+            if (HasLocation)
+            {
+                _retriverAddress = _retriverAddress ?? new Nominatim();
+
+                Address = _retriverAddress.Retrive(location: Location);
+                return true;
+            }
+
+            return false;
+        }
+       
     }
 }
