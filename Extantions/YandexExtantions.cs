@@ -6,7 +6,7 @@ namespace BSRetriever.RetriversLocation.RetriversLocation
 {
     internal static class YandexExtantions
     {
-        internal static (double lat, double lon) Get(string link)
+        internal static (double lat, double lon) Retrive(string link)
         {
             try
             {

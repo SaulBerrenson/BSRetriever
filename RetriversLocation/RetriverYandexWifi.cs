@@ -7,7 +7,7 @@ namespace BSRetriever.RetriversLocation.RetriversLocation
     {
         public (double lat, double lon) Retrive(string bssid)
         {
-            return YandexExtantions.Get(
+            return YandexExtantions.Retrive(
                 $"http://mobile.maps.yandex.net/cellid_location/?wifinetworks={bssid.Replace(":", String.Empty).ToUpper()}:-1");
         }
     }
