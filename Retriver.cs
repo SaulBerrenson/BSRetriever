@@ -7,9 +7,9 @@ using BSRetriever.RetriversAddress.Json.Myinkov;
 
 namespace BSRetriever.RetriversLocation
 {
-    public class Retriver : BaseRetriver
+    public class Retriver : CellRetriver
     {
-        public Retriver((string MCC, string MNC, string LAC, string CID) data, IAddressRetriver retriverAddress = null, IRetriverLocation retriverLocation = null, ILinkLocation linkLocation = null, string apiKey = null) : base(data, retriverAddress, retriverLocation, linkLocation, apiKey)
+        public Retriver((string MCC, string MNC, string LAC, string CID) data, IAddressRetriver retriverAddress = null, ILinkLocation linkLocation = null, IRetriverLocation retriverLocation = null, string apiKey = null) : base(data,retriverAddress, linkLocation, retriverLocation, apiKey)
         {
         }
 
@@ -39,5 +39,8 @@ namespace BSRetriever.RetriversLocation
 
             return false;
         }
+
+       
+
     }
 }
