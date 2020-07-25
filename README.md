@@ -76,5 +76,7 @@ Link Builder:
         }
 ```
 
+# Extantions
+You can create your own retrivers just inherit from bases classes with pattern strategy
 
 
