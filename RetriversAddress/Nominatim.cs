@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net;
+using BSRetriever.Extantions;
 using BSRetriever.Interfaces;
 using BSRetriever.RetriversAddress.Json;
 using Newtonsoft.Json;
@@ -9,24 +11,26 @@ namespace BSRetriever.RetriversAddress
 {
     public class Nominatim : IAddressRetriver
     {
-        public string Retrive((double lat, double lon) location)
+        public string Retrive((double lat, double lon) location, string lang = "en-US")
         {
             try
             {
-               // https://nominatim.openstreetmap.org/reverse?format=json&lat=52.5487429714954&lon=-1.81602098644987&zoom=18&addressdetails=0
+               // 
 
                using (WebClient clientHttp = new WebClient(){Headers = new WebHeaderCollection()
                {
                    {HttpRequestHeader.UserAgent,"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0"},
-                   {HttpRequestHeader.ContentLanguage, "ru"},
-                   {HttpRequestHeader.ContentType, "application/json; charset=UTF-8"},
+                   {HttpRequestHeader.Accept,"application/json; charset=UTF-8"},
+                   {HttpRequestHeader.AcceptLanguage, lang},
 
                }})
                {
                    try
                    {
+                       var link =
+                           $"https://nominatim.openstreetmap.org/reverse?format=json&lat={location.lat.DoubleWithDot()}&lon={location.lon.DoubleWithDot()}&zoom=18&addressdetails=0";
                        var json_data = clientHttp.DownloadString(
-                           "https://openexchangerates.org/api/latest.json?app_id=4be3cf28d6954df2b87bf1bb7c2ba47b ");
+                           link);
 
                        if (string.IsNullOrWhiteSpace(json_data)) return String.Empty;
 
@@ -36,7 +40,7 @@ namespace BSRetriever.RetriversAddress
 
                        return addressData?.DisplayName;
                    }
-                   catch (Exception)
+                   catch (Exception exception) 
                    {
                        return String.Empty;
                    }
