@@ -11,7 +11,13 @@ namespace BSRetriever.RetriversAddress
 {
     public class Nominatim : IAddressRetriver
     {
-        public string Retrive((double lat, double lon) location, string lang = "en-US")
+        private string _lang;
+        public Nominatim(string lang = "en-US")
+        {
+            _lang = lang;
+        }
+
+        public string Retrive((double lat, double lon) location)
         {
             try
             {
@@ -21,7 +27,7 @@ namespace BSRetriever.RetriversAddress
                {
                    {HttpRequestHeader.UserAgent,"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0"},
                    {HttpRequestHeader.Accept,"application/json; charset=UTF-8"},
-                   {HttpRequestHeader.AcceptLanguage, lang},
+                   {HttpRequestHeader.AcceptLanguage, _lang},
 
                }})
                {
